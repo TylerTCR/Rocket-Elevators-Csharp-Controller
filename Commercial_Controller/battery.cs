@@ -31,16 +31,36 @@ namespace Commercial_Controller
             this.createColumns(_amountOfColumns, _amountOfFloors, _amountOfBasements, _amountOfElevatorPerColumn);
         }
 
-        public Column findBestColumn(int _requestedFloor) // 21
+        public Column findBestColumn(int _requestedFloor)
         {
             foreach (Column column in this.columnsList) // Runs 4 times, 0, 1, 2, 3
             {
-                for (int i = 0; i != column.servedFloors[i]; i++) // Loop through each floor in that column's servedFloors list
+                /* Another loop I've tried...
+                foreach (int floor in column.servedFloors)
+                {
+                    if (floor == _requestedFloor) {
+                        return column;
+                    }
+                } */
+
+                for (int i = 0; i < column.servedFloors.Count; i+= 1) // Loop through each floor in that column's servedFloors list
                 {
                     if (column.servedFloors[i] == _requestedFloor) { //[-6, -5, -5, -3, -2, -1] 
                         return column;
                     }
+                    else // Following was added just to see what happened
+                        return column;
                 }
+
+                /* Another loop I've tried...
+                int i = 0;
+                while (i < column.servedFloors.Count) {
+                    if (column.servedFloors[i] == _requestedFloor) {
+                        return column;
+                    } else {
+                        i++;
+                    }
+                } */
             }
         }
 
