@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 
 namespace Commercial_Controller
@@ -9,16 +10,16 @@ namespace Commercial_Controller
         public int ID = 1;
         public int columnID = 1;
         public string status;
-        public List<object> columnsList;
-        public List<object> floorRequestButtonList;
+        public List<Column> columnsList;
+        public List<FloorRequestButton> floorRequestButtonList;
 
         // Constructor
         public Battery(int _ID, int _amountOfColumns, int _amountOfFloors, int _amountOfBasements, int _amountOfElevatorPerColumn)
         {
             this.ID = _ID;
             this.status = "online";
-            this.columnsList = new List<object>();
-            this.floorRequestButtonList = new List<object>();
+            this.columnsList = new List<Column>();
+            this.floorRequestButtonList = new List<FloorRequestButton>();
 
             if (_amountOfBasements > 0) {
                 this.createBasementFloorRequestButtons(_amountOfBasements);
@@ -30,28 +31,37 @@ namespace Commercial_Controller
             this.createColumns(_amountOfColumns, _amountOfFloors, _amountOfBasements, _amountOfElevatorPerColumn);
         }
 
-        public Column findBestColumn(int _requestedFloor)
+        public Column findBestColumn(int _requestedFloor) // 21
         {
-            int i = 0;
-            foreach (Column column in this.columnsList)
+            foreach (Column column in this.columnsList) // Runs 4 times, 0, 1, 2, 3
             {
-                if (column.servedFloors[i] == _requestedFloor)
-                    return column;
+                for (int i = 0; i != column.servedFloors[i]; i++) // Loop through each floor in that column's servedFloors list
+                {
+                    if (column.servedFloors[i] == _requestedFloor) { //[-6, -5, -5, -3, -2, -1] 
+                        return column;
+                    }
+                }
             }
         }
 
         //Simulate when a user presses a button at the lobby
-        // public (Column, Elevator) assignElevator(int _requestedFloor, string _direction)
-        public void assignElevator(int _requestedFloor, string _direction)
+        //public (Column, Elevator) assignElevator(int _requestedFloor, string _direction)
+        public Hashtable assignElevator(int _requestedFloor, string _direction)
+
         {
             // Determine the chosen column
             Column chosenColumn = this.findBestColumn(_requestedFloor);
             // Determine the chosen elevator within the column
             Elevator chosenElevator = chosenColumn.findElevator(1, _direction);
             // Add the request to the elevator's new request list
-            // chosenElevator.addNewRequest(_requestedFloor);
+            chosenElevator.addNewRequest(_requestedFloor);
             // Time to move the elevator
             chosenElevator.move();
+
+            Hashtable temp = new Hashtable();
+            temp.Add("chosenColumn", chosenColumn);
+            temp.Add("chosenElevator", chosenElevator);
+            return temp;
         }
 
         public void createBasementColumn(int amountOfBasements, int elevatorsPerColumn)
@@ -97,8 +107,8 @@ namespace Commercial_Controller
             int buttonFloor = -1, floorRequestButtonID = 1;
             // For each basement, create a floor request button
             for (int i = 0; i < amountOfBasements; i++) {
-                object floorRequestButton = new FloorRequestButton(floorRequestButtonID, buttonFloor, "down");
-                this.columnsList.Add(floorRequestButton);
+                FloorRequestButton floorRequestButton = new FloorRequestButton(floorRequestButtonID, buttonFloor, "down");
+                this.floorRequestButtonList.Add(floorRequestButton);
                 buttonFloor--;
                 floorRequestButtonID++;
             }
@@ -110,8 +120,8 @@ namespace Commercial_Controller
 
             // For each above ground floor, create a floor request button
             for (int i = 0; i < amountOfFloors; i++) {
-                object floorRequestButton = new FloorRequestButton(floorRequestButtonID, buttonFloor, "up");
-                this.columnsList.Add(floorRequestButton);
+                FloorRequestButton floorRequestButton = new FloorRequestButton(floorRequestButtonID, buttonFloor, "up");
+                this.floorRequestButtonList.Add(floorRequestButton);
                 buttonFloor++;
                 floorRequestButtonID++;
             }

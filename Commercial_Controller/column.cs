@@ -11,8 +11,8 @@ namespace Commercial_Controller
         public string status;
         public List<int> servedFloors;
         public bool isBasement;
-        public List<object> elevatorsList;
-        public List<object> callButtons;
+        public List<Elevator> elevatorsList;
+        public List<CallButton> callButtons;
 
         // Constructor
         public Column(string _ID, int _amountOfElevators, List<int> _servedFloors, bool _isBasement)
@@ -21,8 +21,8 @@ namespace Commercial_Controller
             this.status = "online";
             this.servedFloors = new List<int>();
             this.isBasement = _isBasement;
-            this.elevatorsList = new List<object>();
-            this.callButtons = new List<object>();
+            this.elevatorsList = new List<Elevator>();
+            this.callButtons = new List<CallButton>();
 
             this.createCallButtons(servedFloors, isBasement);
             this.createElevators(servedFloors, _amountOfElevators);
@@ -38,7 +38,7 @@ namespace Commercial_Controller
 
                 foreach (int item in servedFloors)
                 {
-                    object callButton = new CallButton(buttonId, buttonFloor, "up");
+                    CallButton callButton = new CallButton(buttonId, buttonFloor, "up");
                     this.callButtons.Add(callButton);
                     buttonFloor++;
                     buttonId++;
@@ -47,7 +47,7 @@ namespace Commercial_Controller
                 int buttonFloor = 1;
                 foreach (int item in servedFloors)
                 {
-                    object callButton = new CallButton(buttonId, buttonFloor, "down");
+                    CallButton callButton = new CallButton(buttonId, buttonFloor, "down");
                     this.callButtons.Add(callButton);
                     buttonFloor++;
                     buttonId++;
@@ -66,17 +66,16 @@ namespace Commercial_Controller
         }
 
         //Simulate when a user presses a button on a floor to go back to the first floor
-        public Elevator requestElevator(int requestedFloor, string direction)
+        public void requestElevator(int requestedFloor, string direction)
         {
             // Find the elevator to pick up the person
             Elevator elevator = this.findElevator(requestedFloor, direction);
-            // elevator.addNewRequest(requestedFloor);
-            // elevator.move();
+            elevator.addNewRequest(requestedFloor);
+            elevator.move();
 
-            // // Would then go back to lobby
-            // elevator.addNewRequest(1);
-            // elevator.move();
-            return elevator;
+            // Would then go back to lobby
+            elevator.addNewRequest(1);
+            elevator.move();
         }
 
         /* Find the best elevator, prioritizing ones already in motion, heading the same way of the user wants to go,
@@ -86,7 +85,7 @@ namespace Commercial_Controller
             Elevator bestElevator = null;
             int bestScore = 100;
             int referenceGap = 100000;
-            object bestElevatorInformations;
+            Hashtable bestElevatorInformations;
 
             // If requestedFloor is the lobby...
             if (requestedFloor == 1) {
@@ -117,9 +116,9 @@ namespace Commercial_Controller
                         bestElevatorInformations = this.checkIfElevatorIsBetter(5, elevator, bestScore, referenceGap, bestElevator, requestedFloor);
                     }
 
-                    // bestElevator = (Elevator)bestElevatorInformations.bestElevator;
-                    // bestScore = bestElevatorInformations.bestScore;
-                    // referenceGap = bestElevatorInformations.referenceGap;
+                    bestElevator = (Elevator)bestElevatorInformations["bestElevator"];
+                    bestScore = (int)bestElevatorInformations["bestScore"];
+                    referenceGap = (int)bestElevatorInformations["referenceGap"];
                 }
             }
             // If requested floor is not the lobby...
@@ -147,9 +146,9 @@ namespace Commercial_Controller
                         bestElevatorInformations = this.checkIfElevatorIsBetter(5, elevator, bestScore, referenceGap, bestElevator, requestedFloor);
                     }
 
-                    // bestElevator = (Elevator)bestElevatorInformations["bestElevator"];
-                    // bestScore = bestElevatorInformations.bestScore;
-                    // referenceGap = bestElevatorInformations.referenceGap;
+                    bestElevator = (Elevator)bestElevatorInformations["bestElevator"];
+                    bestScore = (int)bestElevatorInformations["bestScore"];
+                    referenceGap = (int)bestElevatorInformations["referenceGap"];
                 }
             }
 
