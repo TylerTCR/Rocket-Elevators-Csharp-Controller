@@ -66,7 +66,7 @@ namespace Commercial_Controller
         }
 
         //Simulate when a user presses a button on a floor to go back to the first floor
-        public void requestElevator(int requestedFloor, string direction)
+        public Elevator requestElevator(int requestedFloor, string direction)
         {
             // Find the elevator to pick up the person
             Elevator elevator = this.findElevator(requestedFloor, direction);
@@ -76,10 +76,12 @@ namespace Commercial_Controller
             // Would then go back to lobby
             elevator.addNewRequest(1);
             elevator.move();
+
+            return elevator;
         }
 
         /* Find the best elevator, prioritizing ones already in motion, heading the same way of the user wants to go,
-        and closest to the floor where the person is on. */
+        and closest to the floor where the user is on. */
         public Elevator findElevator(int requestedFloor, string direction)
         {
             Elevator bestElevator = null;

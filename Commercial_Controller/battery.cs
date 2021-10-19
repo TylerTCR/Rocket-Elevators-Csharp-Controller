@@ -33,55 +33,33 @@ namespace Commercial_Controller
 
         public Column findBestColumn(int _requestedFloor)
         {
-            foreach (Column column in this.columnsList) // Runs 4 times, 0, 1, 2, 3
-            {
-                /* Another loop I've tried...
-                foreach (int floor in column.servedFloors)
-                {
-                    if (floor == _requestedFloor) {
-                        return column;
-                    }
-                } */
-
-                for (int i = 0; i < column.servedFloors.Count; i+= 1) // Loop through each floor in that column's servedFloors list
-                {
-                    if (column.servedFloors[i] == _requestedFloor) { //[-6, -5, -5, -3, -2, -1] 
-                        return column;
-                    }
-                    else // Following was added just to see what happened
-                        return column;
-                }
-
-                /* Another loop I've tried...
-                int i = 0;
-                while (i < column.servedFloors.Count) {
+            foreach (Column column in this.columnsList) {
+                // Loop through each floor in that column's servedFloors list
+                for (int i = 0; i < column.servedFloors.Count; i+= 1) {
                     if (column.servedFloors[i] == _requestedFloor) {
                         return column;
-                    } else {
-                        i++;
                     }
-                } */
+                }
             }
+            return null;
         }
 
         //Simulate when a user presses a button at the lobby
-        //public (Column, Elevator) assignElevator(int _requestedFloor, string _direction)
-        public Hashtable assignElevator(int _requestedFloor, string _direction)
-
+        public (Column, Elevator) assignElevator(int requestedFloor, string direction)
         {
             // Determine the chosen column
-            Column chosenColumn = this.findBestColumn(_requestedFloor);
+            Column chosenColumn = this.findBestColumn(requestedFloor);
             // Determine the chosen elevator within the column
-            Elevator chosenElevator = chosenColumn.findElevator(1, _direction);
+            Elevator chosenElevator = chosenColumn.findElevator(1, direction);
             // Add the request to the elevator's new request list
-            chosenElevator.addNewRequest(_requestedFloor);
+            chosenElevator.addNewRequest(requestedFloor);
             // Time to move the elevator
             chosenElevator.move();
 
-            Hashtable temp = new Hashtable();
+            /*Hashtable temp = new Hashtable();
             temp.Add("chosenColumn", chosenColumn);
-            temp.Add("chosenElevator", chosenElevator);
-            return temp;
+            temp.Add("chosenElevator", chosenElevator);*/
+            return (chosenColumn, chosenElevator);
         }
 
         public void createBasementColumn(int amountOfBasements, int elevatorsPerColumn)

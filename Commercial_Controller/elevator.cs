@@ -11,10 +11,11 @@ namespace Commercial_Controller
         public int currentFloor;
         public string direction;
         public Door door;
-        public List<int> floorRequestList;
+        public List<int> floorRequestsList;
         public List<int> completedRequestsList;
 
         // Constructor
+
         public Elevator(string _elevatorID)
         {
             this.ID = _elevatorID;
@@ -22,7 +23,7 @@ namespace Commercial_Controller
             this.currentFloor = 1;
             this.direction = null;
             this.door = new Door(Convert.ToInt32(ID));
-            this.floorRequestList = new List<int>();
+            this.floorRequestsList = new List<int>();
             this.completedRequestsList = new List<int>();
         }
 
@@ -30,8 +31,8 @@ namespace Commercial_Controller
         public void move()
         {
             // While the elevator's floor request list is not empty
-            while (this.floorRequestList.Count != 0) {
-                int[] tempArray = this.floorRequestList.ToArray();
+            while (this.floorRequestsList.Count != 0) {
+                int[] tempArray = this.floorRequestsList.ToArray();
                 int destination = tempArray[0];
                 if (this.currentFloor < destination) {
                     this.direction = "up";
@@ -64,7 +65,7 @@ namespace Commercial_Controller
                 // Add the destination to completed request list
                 this.completedRequestsList.Add(destination);
                 // Remove the first floor in the request list
-                this.floorRequestList.RemoveAt(0);
+                this.floorRequestsList.RemoveAt(0);
             }
         }
 
@@ -80,8 +81,8 @@ namespace Commercial_Controller
         
         // Add a new request to the floor request list, then set the direction
         public void addNewRequest(int requestedFloor) {
-            if (!(this.floorRequestList.Contains(requestedFloor)) ) {
-                floorRequestList.Add(requestedFloor);
+            if (!(this.floorRequestsList.Contains(requestedFloor)) ) {
+                floorRequestsList.Add(requestedFloor);
             }
 
             if (this.currentFloor < requestedFloor) {

@@ -12,11 +12,11 @@ namespace Commercial_Controller
 
         static void Main(string[] args)
         {
-            // int scenarioNumber = Int32.Parse(args[0]);
-            // Scenarios scenarios = new Scenarios();
-            // scenarios.run(scenarioNumber);
-            List<int> floors = new List<int> {1, 2,3};
-            Column c1 = new Column("1", 2, floors, false);
+            int scenarioNumber = Int32.Parse(args[0]);
+            Scenarios scenarios = new Scenarios();
+            scenarios.run(scenarioNumber);
+            //List<int> floors = new List<int> {1, 2,3};
+            //Column c1 = new Column("1", 2, floors, false);
 
         }
     }
