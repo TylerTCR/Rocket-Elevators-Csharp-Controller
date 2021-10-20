@@ -19,7 +19,7 @@ namespace Commercial_Controller
         {
             this.ID = _ID;
             this.status = "online";
-            this.servedFloors = new List<int>();
+            this.servedFloors = _servedFloors;
             this.isBasement = _isBasement;
             this.elevatorsList = new List<Elevator>();
             this.callButtons = new List<CallButton>();
@@ -102,11 +102,11 @@ namespace Commercial_Controller
                         bestElevatorInformations = this.checkIfElevatorIsBetter(2, elevator, bestScore, referenceGap, bestElevator, requestedFloor);
                     }
                     // Elevator is lower than user and coming up
-                    else if (1 < elevator.currentFloor && elevator.direction == "up") {
+                    else if (1 > elevator.currentFloor && elevator.direction == "up") {
                         bestElevatorInformations = this.checkIfElevatorIsBetter(3, elevator, bestScore, referenceGap, bestElevator, requestedFloor);
                     }
                     // Elevator is above the user and coming down
-                    else if (1 > elevator.currentFloor && elevator.direction == "down") {
+                    else if (1 < elevator.currentFloor && elevator.direction == "down") {
                         bestElevatorInformations = this.checkIfElevatorIsBetter(3, elevator, bestScore, referenceGap, bestElevator, requestedFloor);
                     }
                     // Elevator is not at the lobby, but is idle and has no requests
@@ -132,11 +132,11 @@ namespace Commercial_Controller
                         bestElevatorInformations = this.checkIfElevatorIsBetter(1, elevator, bestScore, referenceGap, bestElevator, requestedFloor);
                     }
                     // Elevator is lower than user, and going up towards the lobby
-                    else if (requestedFloor > elevator.currentFloor && elevator.status == "moving" && elevator.direction == "up" && elevator.direction == direction) {
+                    else if (requestedFloor > elevator.currentFloor && elevator.direction == "up" && elevator.direction == direction) {
                         bestElevatorInformations = this.checkIfElevatorIsBetter(2, elevator, bestScore, referenceGap, bestElevator, requestedFloor);
                     }
                     // Elevator is above user and going down towards the lobby
-                    else if (requestedFloor < elevator.currentFloor && elevator.status == "moving" && elevator.direction == "down" && elevator.direction == direction) {
+                    else if (requestedFloor < elevator.currentFloor && elevator.direction == "down" && elevator.direction == direction) {
                         bestElevatorInformations = this.checkIfElevatorIsBetter(2, elevator, bestScore, referenceGap, bestElevator, requestedFloor);
                     }
                     // Elevator is idle

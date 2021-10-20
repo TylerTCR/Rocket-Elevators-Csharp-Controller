@@ -51,6 +51,10 @@ namespace Commercial_Controller
             Column chosenColumn = this.findBestColumn(requestedFloor);
             // Determine the chosen elevator within the column
             Elevator chosenElevator = chosenColumn.findElevator(1, direction);
+
+            chosenElevator.addNewRequest(1);
+            chosenElevator.move();
+
             // Add the request to the elevator's new request list
             chosenElevator.addNewRequest(requestedFloor);
             // Time to move the elevator
