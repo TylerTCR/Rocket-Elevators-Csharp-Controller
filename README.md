@@ -1,5 +1,7 @@
 # Rocket-Elevators-Csharp-Controller
-This is the template to use for the C# commercial controller. In the Commercial_Controller folder, you will find the classes that should be used along with some methods described in the requirements. The necessary files to run some tests are also included, in the Commercial_Controller.Tests folder.
+This is Tyler's Rocket Elevators' Commercial Controller coded in c#.
+
+A brief run-down on how the controller works; When someone at the lobby presses a floor they want to go to, it will find the best column and elevator within that column to pick up the person and take them to the floor they want. However, if someone is at another floor and they call an elevator, it will find the best elevator within that column to take them to the lobby.
 
 ### Installation
 
@@ -11,22 +13,10 @@ The code to run the scenarios is included in the Commercial_Controller folder, a
 
 ### Running the tests
 
-To launch the tests, make sure to be at the root of the repository and run:
+To test this controller with scenarios, make sure to be at the root of the repository and run:
 
 `dotnet test`
 
-With a fully completed project, you should get an output like:
+To get more details about each test, simply add the `-v n` flag at the end like so: 
 
-![Screenshot from 2021-06-15 17-31-02](https://user-images.githubusercontent.com/28630658/122128889-3edfa500-ce03-11eb-97d0-df0cc6a79fed.png)
-
-You can also get more details about each test by adding the `-v n` flag: 
-
-`dotnet test -v n` 
-
-which should give something like: 
-
-![Screenshot from 2021-06-15 18-00-52](https://user-images.githubusercontent.com/28630658/122129140-a8f84a00-ce03-11eb-8807-33d7eab8c387.png)
-
-Make sure to only edit files in the Commercial_Controller folder. The test and scenarios files can be left in your final project. The grader will run tests similar to the ones provided.
-
-Of course, make sure to edit this Readme file to describe your own project!
+`dotnet test -v n`
