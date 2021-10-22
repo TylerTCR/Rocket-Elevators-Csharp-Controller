@@ -52,10 +52,12 @@ namespace Commercial_Controller
             // Determine the chosen elevator within the column
             Elevator chosenElevator = chosenColumn.findElevator(1, direction);
 
+            // Add the Lobby to the elevator's request list
             chosenElevator.addNewRequest(1);
+            // Now move the elevator to the lobby
             chosenElevator.move();
 
-            // Add the request to the elevator's new request list
+            // Add the requested floor to the elevator's request list
             chosenElevator.addNewRequest(requestedFloor);
             // Time to move the elevator
             chosenElevator.move();
