@@ -62,9 +62,6 @@ namespace Commercial_Controller
             // Time to move the elevator
             chosenElevator.move();
 
-            /*Hashtable temp = new Hashtable();
-            temp.Add("chosenColumn", chosenColumn);
-            temp.Add("chosenElevator", chosenElevator);*/
             return (chosenColumn, chosenElevator);
         }
 
