@@ -176,7 +176,6 @@ namespace Commercial_Controller
             info.Add("bestScore", bestScore);
             info.Add("referenceGap", referenceGap);
             
-            // return {bestElevator: bestElevator, bestScore: bestScore, referenceGap: referenceGap};
             return info;
         }
     }
